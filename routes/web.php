@@ -25,5 +25,6 @@ Route::middleware('guest')->group(function() {
 });
 
 Route::middleware('auth')->group(function() {
-    Route::put('/vacancy', [JobVacancyController::class, 'addVacancy'])->name('vacancy.store');
+    Route::post('/vacancy', [JobVacancyController::class, 'addVacancy'])->name('vacancy.store');
+    Route::post('/vacancy/{id}/response', [JobVacancyController::class, 'sendResponse'])->name('vacancy.store.response');
 });

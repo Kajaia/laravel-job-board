@@ -16,6 +16,8 @@ class AuthTest extends TestCase
      */
     public function test_user_can_register()
     {
+        $this->artisan('migrate:fresh');
+
         $response = $this->post('/register', [
             'name' => 'John Doe',
             'email' => 'johndoe@mail.com',

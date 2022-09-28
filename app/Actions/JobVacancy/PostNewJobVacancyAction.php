@@ -9,19 +9,18 @@ use Illuminate\Http\RedirectResponse;
 class PostNewJobVacancyAction
 {
     public function __construct(
-        protected JobVacancy $model,
-        protected JobVacancyRequest $request
+        protected JobVacancy $model
     ) {}
 
-    public function __invoke(): RedirectResponse
+    public function __invoke(JobVacancyRequest $request): RedirectResponse
     {
-        $this->request->validate($this->request->rules());
+        $request->validate($request->rules());
 
         if($this->userHasNoJobVacancies())
         {
             $this->model->create([
-                'title' => $this->request->title,
-                'description' => $this->request->description,
+                'title' => $request->title,
+                'description' => $request->description,
                 'author_id' => auth()->user()->id
             ]);
 

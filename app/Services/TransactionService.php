@@ -18,8 +18,8 @@ class TransactionService
         return ($this->getUserCoinsAction)();
     }
 
-    public function addOrSubtractCoins(int $amount, string $type): UserCoin
+    public function addOrSubtractCoins(int $amount, string $type, ?int $userId = null): UserCoin
     {
-        return ($this->addOrSubtractUserCoinsAction)($amount, $type);
+        return ($this->addOrSubtractUserCoinsAction)($amount, $type, $userId);
     }
 }

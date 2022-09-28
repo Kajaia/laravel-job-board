@@ -25,4 +25,9 @@ class JobVacancy extends Model
     {
         return $this->morphMany(Like::class, 'likeable');
     }
+
+    public function vacancies()
+    {
+        return $this->hasMany(JobVacancyResponse::class, 'vacancy_id');
+    }
 }
