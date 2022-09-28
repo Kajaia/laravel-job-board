@@ -16,4 +16,9 @@ class AuthController extends Controller
     {
         return $this->authService->register();
     }
+
+    public function login(): RedirectResponse
+    {
+        return $this->authService->login();
+    }
 }
