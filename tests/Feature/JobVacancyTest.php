@@ -18,9 +18,12 @@ class JobVacancyTest extends TestCase
     {
         $user = User::findOrFail(1);
 
+        $title = fake()->word();
+        $desc = fake()->text(150);
+
         $details = [
-            'title' => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor, sit amet...',
+            'title' => $title,
+            'description' => $desc,
             'author_id' => $user->id
         ];
 

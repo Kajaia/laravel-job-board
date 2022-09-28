@@ -33,7 +33,7 @@ class AuthTest extends TestCase
     public function test_user_can_login()
     {
         $credentials = [
-            'email' => 'johndoe2@mail.com',
+            'email' => 'johndoe@mail.com',
             'password' => 'Passw@rd123'
         ];
 
