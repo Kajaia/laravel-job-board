@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\JobVacancy\JobVacancyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +22,8 @@ Route::middleware('guest')->group(function() {
         Route::post('/register', [AuthController::class, 'register'])->name('register');
         Route::post('/login', [AuthController::class, 'login'])->name('login');
     });
+});
+
+Route::middleware('auth')->group(function() {
+    Route::put('/vacancy', [JobVacancyController::class, 'addVacancy'])->name('vacancy.store');
 });
