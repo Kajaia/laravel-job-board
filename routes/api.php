@@ -26,7 +26,8 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/vacancy', [JobVacancyController::class, 'addVacancy']);
-        Route::put('/vacancy/{id}/update', [JobVacancyController::class, 'updateVacancy']);
+        Route::put('/vacancy/{id}', [JobVacancyController::class, 'updateVacancy']);
+        Route::delete('/vacancy/{id}', [JobVacancyController::class, 'deleteVacancy']);
         Route::post('/vacancy/{id}/response', [JobVacancyController::class, 'sendResponse']);
         Route::post('/vacancy/{id}/like', [JobVacancyController::class, 'likeVacancy']);
         Route::post('/user/{id}/like', [AuthController::class, 'likeUser']);

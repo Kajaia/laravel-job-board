@@ -42,6 +42,17 @@ class JobVacancyController extends Controller
         ], 403);
     }
 
+    public function deleteVacancy(int $id): JsonResponse
+    {
+        if (!$this->vacancyAuthorIsNotAuthUser($id)) {
+            return $this->jobVacancyService->deleteVacancy($id);
+        }
+
+        return response()->json([
+            'message' => 'You can only delete your vacancies.'
+        ], 403);
+    }
+
     public function addVacancy(JobVacancyRequest $request): JsonResponse
     {
         if ($this->transactionService->coinsCount() >= 2) {

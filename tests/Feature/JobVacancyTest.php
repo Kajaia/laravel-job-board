@@ -120,7 +120,7 @@ class JobVacancyTest extends TestCase
 
         $vacancy = JobVacancy::findOrFail(1);
         $owner = $this->actingAs($user)
-            ->putJson("/api/v1/vacancy/{$vacancy->id}/update", [
+            ->putJson("/api/v1/vacancy/{$vacancy->id}", [
                 'title' => 'New title'
             ]);
         $owner->assertStatus(200);
@@ -131,9 +131,28 @@ class JobVacancyTest extends TestCase
             'author_id' => 2
         ]);
         $notOwner = $this->actingAs($user)
-            ->putJson("/api/v1/vacancy/{$anotherVacancy->id}/update", [
+            ->putJson("/api/v1/vacancy/{$anotherVacancy->id}", [
                 'title' => 'New title'
             ]);
+        $notOwner->assertStatus(403);
+    }
+
+    public function test_only_owners_can_delete_their_job_vacancies()
+    {
+        $user = User::findOrFail(1);
+
+        $vacancy = JobVacancy::findOrFail(1);
+        $owner = $this->actingAs($user)
+            ->deleteJson("/api/v1/vacancy/{$vacancy->id}");
+        $owner->assertStatus(200);
+
+        $anotherVacancy = JobVacancy::create([
+            'title' => fake()->word(),
+            'description' => fake()->text(150),
+            'author_id' => 2
+        ]);
+        $notOwner = $this->actingAs($user)
+            ->deleteJson("/api/v1/vacancy/{$anotherVacancy->id}");
         $notOwner->assertStatus(403);
     }
 }
