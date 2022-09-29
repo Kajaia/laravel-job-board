@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -44,22 +46,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function vacancies()
+    public function vacancies(): HasMany
     {
         return $this->hasMany(JobVacancy::class, 'author_id');
     }
 
-    public function responses()
+    public function responses(): HasMany
     {
         return $this->hasMany(JobVacancyResponse::class);
     }
 
-    public function coins()
+    public function coins(): HasMany
     {
         return $this->hasMany(UserCoin::class);
     }
 
-    public function likes()
+    public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likeable');
     }
