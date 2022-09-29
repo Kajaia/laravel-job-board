@@ -10,6 +10,7 @@ use App\Actions\JobVacancy\GetVacanciesListAction;
 use App\Actions\JobVacancy\LogSentEmailAction;
 use App\Actions\JobVacancy\PostNewJobVacancyAction;
 use App\Actions\JobVacancy\SendResponseToJobVacancyAction;
+use App\Actions\JobVacancy\UpdateJobVacancyAction;
 use App\Actions\JobVacancy\UserResponsesCountForJobVacancyAction;
 use App\Http\Requests\JobVacancyRequest;
 use App\Mail\NewResponseAddedToJobVacancy;
@@ -29,7 +30,8 @@ class JobVacancyService
         protected GetJobVacancyByIdAction $getJobVacancyByIdAction,
         protected CheckJobVacancySentEmailsForLastHourAction $checkJobVacancySentEmailsForLastHourAction,
         protected LogSentEmailAction $logSentEmailAction,
-        protected GetVacanciesListAction $getVacanciesListAction
+        protected GetVacanciesListAction $getVacanciesListAction,
+        protected UpdateJobVacancyAction $updateJobVacancyAction
     ) {
     }
 
@@ -46,6 +48,11 @@ class JobVacancyService
     public function sendResponse(int $vacancyId): JsonResponse
     {
         return ($this->sendResponseToJobVacancyAction)($vacancyId);
+    }
+
+    public function updateVacancy(JobVacancyRequest $request, int $id): JsonResponse
+    {
+        return ($this->updateJobVacancyAction)($request, $id);
     }
 
     public function userResponsesCount(int $vacancyId): int

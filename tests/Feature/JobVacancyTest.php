@@ -106,10 +106,34 @@ class JobVacancyTest extends TestCase
         $vacancy = JobVacancy::findOrFail(1);
 
         $user = User::findOrFail(2);
-        $auth = $this->actingAs($user)->getJson("/api/v1/vacancy/{$vacancy->id}");
+        $auth = $this->actingAs($user)
+            ->getJson("/api/v1/vacancy/{$vacancy->id}");
         $auth->assertStatus(200);
 
         $guest = $this->getJson("/api/v1/vacancy/{$vacancy->id}");
         $guest->assertStatus(200);
+    }
+
+    public function test_only_owners_can_update_their_job_vacancies()
+    {
+        $user = User::findOrFail(1);
+
+        $vacancy = JobVacancy::findOrFail(1);
+        $owner = $this->actingAs($user)
+            ->putJson("/api/v1/vacancy/{$vacancy->id}/update", [
+                'title' => 'New title'
+            ]);
+        $owner->assertStatus(200);
+
+        $anotherVacancy = JobVacancy::create([
+            'title' => fake()->word(),
+            'description' => fake()->text(150),
+            'author_id' => 2
+        ]);
+        $notOwner = $this->actingAs($user)
+            ->putJson("/api/v1/vacancy/{$anotherVacancy->id}/update", [
+                'title' => 'New title'
+            ]);
+        $notOwner->assertStatus(403);
     }
 }
