@@ -34,4 +34,9 @@ class JobVacancy extends Model
     {
         return $this->hasMany(JobVacancyResponse::class, 'vacancy_id');
     }
+
+    public function emails(): HasMany
+    {
+        return $this->hasMany(SentEmail::class, 'vacancy_id');
+    }
 }
