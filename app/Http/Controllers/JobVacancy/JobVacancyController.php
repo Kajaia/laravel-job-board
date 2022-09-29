@@ -53,7 +53,11 @@ class JobVacancyController extends Controller
     public function likeVacancy(LikeRequest $request, int $id): RedirectResponse
     {
         if ($this->vacancyAuthorIsNotAuthUser($id)) {
-            return $this->authService->like($request);
+            if (!$this->jobVacancyService->checkUserLikedVacancy($id)) {
+                return $this->authService->like($request);
+            } else {
+                return back()->with('message', 'You already liked this vacancy.');
+            }
         }
 
         return back()->with('message', 'You can\'t like your vacancy.');

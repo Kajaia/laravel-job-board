@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Actions\JobVacancy\CheckUserLikedVacancyAction;
 use App\Actions\JobVacancy\GetJobVacancyAuthorIdAction;
 use App\Actions\JobVacancy\PostNewJobVacancyAction;
 use App\Actions\JobVacancy\SendResponseToJobVacancyAction;
@@ -9,6 +10,7 @@ use App\Actions\JobVacancy\UserResponsesCountForJobVacancyAction;
 use App\Http\Requests\JobVacancyRequest;
 use App\Http\Requests\JobVacancyResponseRequest;
 use App\Models\JobVacancyResponse;
+use App\Models\Like;
 use Illuminate\Http\RedirectResponse;
 
 class JobVacancyService
@@ -17,7 +19,8 @@ class JobVacancyService
         protected PostNewJobVacancyAction $postNewJobVacancyAction,
         protected SendResponseToJobVacancyAction $sendResponseToJobVacancyAction,
         protected UserResponsesCountForJobVacancyAction $userResponsesCountForJobVacancyAction,
-        protected GetJobVacancyAuthorIdAction $getJobVacancyAuthorIdAction
+        protected GetJobVacancyAuthorIdAction $getJobVacancyAuthorIdAction,
+        protected CheckUserLikedVacancyAction $checkUserLikedVacancyAction
     ) {
     }
 
@@ -39,5 +42,10 @@ class JobVacancyService
     public function getJobVacancyAuthorId(int $vacancyId): int
     {
         return ($this->getJobVacancyAuthorIdAction)($vacancyId);
+    }
+
+    public function checkUserLikedVacancy(int $vacancyId): ?Like
+    {
+        return ($this->checkUserLikedVacancyAction)($vacancyId);
     }
 }
