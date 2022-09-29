@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::get('/vacancy', [JobVacancyController::class, 'vacancies']);
+    Route::get('/vacancy/{id}', [JobVacancyController::class, 'vacancy']);
 
     Route::middleware('guest')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);

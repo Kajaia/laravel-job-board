@@ -24,6 +24,13 @@ class JobVacancyController extends Controller
         return $this->jobVacancyService->getVacanciesList();
     }
 
+    public function vacancy(int $id): JsonResponse
+    {
+        return response()->json([
+            'data' => $this->jobVacancyService->getJobVacancyById($id)
+        ], 200);
+    }
+
     public function addVacancy(JobVacancyRequest $request): JsonResponse
     {
         if ($this->transactionService->coinsCount() >= 2) {
