@@ -22,6 +22,7 @@
         "laravel/sail": "^1.16",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
+        "nunomaduro/larastan": "^2.0",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
@@ -53,6 +54,9 @@
         ],
         "format-all": [
             "./vendor/bin/php-cs-fixer fix ./ --using-cache=no"
+        ],
+        "larastan": [
+            "./vendor/bin/phpstan analyse --memory-limit=2G"
         ]
     },
     "extra": {
