@@ -57,6 +57,10 @@
         ],
         "larastan": [
             "./vendor/bin/phpstan analyse --memory-limit=2G"
+        ],
+        "qa": [
+            "./vendor/bin/php-cs-fixer fix ./ --using-cache=no",
+            "./vendor/bin/phpstan analyse --memory-limit=2G"
         ]
     },
     "extra": {
