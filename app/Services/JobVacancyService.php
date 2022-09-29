@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Actions\JobVacancy\GetJobVacancyAuthorIdAction;
 use App\Actions\JobVacancy\PostNewJobVacancyAction;
 use App\Actions\JobVacancy\SendResponseToJobVacancyAction;
 use App\Actions\JobVacancy\UserResponsesCountForJobVacancyAction;
@@ -15,7 +16,8 @@ class JobVacancyService
     public function __construct(
         protected PostNewJobVacancyAction $postNewJobVacancyAction,
         protected SendResponseToJobVacancyAction $sendResponseToJobVacancyAction,
-        protected UserResponsesCountForJobVacancyAction $userResponsesCountForJobVacancyAction
+        protected UserResponsesCountForJobVacancyAction $userResponsesCountForJobVacancyAction,
+        protected GetJobVacancyAuthorIdAction $getJobVacancyAuthorIdAction
     ) {
     }
 
@@ -32,5 +34,10 @@ class JobVacancyService
     public function userResponsesCount(int $vacancyId): int
     {
         return ($this->userResponsesCountForJobVacancyAction)($vacancyId);
+    }
+
+    public function getJobVacancyAuthorId(int $vacancyId): int
+    {
+        return ($this->getJobVacancyAuthorIdAction)($vacancyId);
     }
 }

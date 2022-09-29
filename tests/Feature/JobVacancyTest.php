@@ -72,4 +72,24 @@ class JobVacancyTest extends TestCase
 
         $response->assertStatus(302);
     }
+
+    public function test_user_can_like_job_vacancy()
+    {
+        $vacancy = JobVacancy::findOrFail(2);
+
+        $user = User::findOrFail(2);
+
+        $details = [
+            'likeable_type' => 'App\\Models\\JobVacancy',
+            'likeable_id' => $vacancy->id,
+            'user_id' => $user->id
+        ];
+
+        $response = $this->actingAs($user)
+            ->post("/vacancy/{$vacancy->id}/like", $details);
+
+        $this->assertDatabaseHas('likes', $details);
+
+        $response->assertStatus(302);
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\JobVacancy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobVacancyRequest;
 use App\Http\Requests\JobVacancyResponseRequest;
+use App\Http\Requests\LikeRequest;
+use App\Services\AuthService;
 use App\Services\JobVacancyService;
 use App\Services\TransactionService;
 use Illuminate\Http\RedirectResponse;
@@ -13,7 +15,8 @@ class JobVacancyController extends Controller
 {
     public function __construct(
         protected JobVacancyService $jobVacancyService,
-        protected TransactionService $transactionService
+        protected TransactionService $transactionService,
+        protected AuthService $authService
     ) {
     }
 
@@ -45,5 +48,19 @@ class JobVacancyController extends Controller
         }
 
         return back()->with('message', 'You can\'t send two or more responses to the same job vacancy.');
+    }
+
+    public function likeVacancy(LikeRequest $request): RedirectResponse
+    {
+        if ($this->vacancyAuthorIsNotAuthUser($request->likeable_id)) {
+            return $this->authService->like($request);
+        }
+
+        return back()->with('message', 'You can\'t like your vacancy.');
+    }
+
+    public function vacancyAuthorIsNotAuthUser(int $vacancyId): bool
+    {
+        return $this->jobVacancyService->getJobVacancyAuthorId($vacancyId) !== auth()->user()->id;
     }
 }
