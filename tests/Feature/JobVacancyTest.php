@@ -55,6 +55,10 @@ class JobVacancyTest extends TestCase
             'password' => bcrypt('Passw@rd123')
         ]);
 
+        // User can't send response without coins, let's give some
+        $service = app(TransactionService::class);
+        $service->addOrSubtractCoins(1, 'add', $user->id);
+
         $response = $this->actingAs($user)
             ->post("/vacancy/{$vacancy->id}/response", [
                 'vacancy_id' => $vacancy->id,

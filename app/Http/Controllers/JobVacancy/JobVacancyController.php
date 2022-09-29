@@ -33,9 +33,15 @@ class JobVacancyController extends Controller
     public function sendResponse(JobVacancyResponseRequest $request, int $id): RedirectResponse
     {
         if ($this->jobVacancyService->userResponsesCount($id) < 1) {
-            $this->jobVacancyService->sendResponse($request, $id);
+            if ($this->transactionService->coinsCount() >= 1) {
+                $this->jobVacancyService->sendResponse($request, $id);
 
-            return back();
+                $this->transactionService->addOrSubtractCoins(1, 'subtract');
+
+                return back();
+            } else {
+                return back()->with('message', 'Insufficient amount of coins.');
+            }
         }
 
         return back()->with('message', 'You can\'t send two or more responses to the same job vacancy.');
