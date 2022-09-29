@@ -50,9 +50,9 @@ class JobVacancyController extends Controller
         return back()->with('message', 'You can\'t send two or more responses to the same job vacancy.');
     }
 
-    public function likeVacancy(LikeRequest $request): RedirectResponse
+    public function likeVacancy(LikeRequest $request, int $id): RedirectResponse
     {
-        if ($this->vacancyAuthorIsNotAuthUser($request->likeable_id)) {
+        if ($this->vacancyAuthorIsNotAuthUser($id)) {
             return $this->authService->like($request);
         }
 

@@ -47,4 +47,28 @@ class AuthTest extends TestCase
 
         $this->actingAs($user)->get('/');
     }
+
+    public function test_user_can_like_another_user()
+    {
+        $taylor = User::create([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => bcrypt('Tayl@r123')
+        ]);
+
+        $user = User::findOrFail(1);
+
+        $details = [
+            'likeable_type' => 'App\\Models\\User',
+            'likeable_id' => $taylor->id,
+            'user_id' => $user->id
+        ];
+
+        $response = $this->actingAs($user)
+            ->post("/user/{$taylor->id}/like", $details);
+
+        $this->assertDatabaseHas('likes', $details);
+
+        $response->assertStatus(302);
+    }
 }

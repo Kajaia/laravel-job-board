@@ -30,4 +30,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/vacancy/{id}/response', [JobVacancyController::class, 'sendResponse'])->name('response');
         Route::post('/vacancy/{id}/like', [JobVacancyController::class, 'likeVacancy'])->name('like');
     });
+
+    Route::post('/user/{id}/like', [AuthController::class, 'likeUser'])->name('user.like');
 });
