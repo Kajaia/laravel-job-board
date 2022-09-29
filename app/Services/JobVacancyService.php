@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Actions\JobVacancy\CheckJobVacancySentEmailsForLastHourAction;
 use App\Actions\JobVacancy\CheckUserLikedVacancyAction;
 use App\Actions\JobVacancy\GetJobVacancyAuthorIdAction;
 use App\Actions\JobVacancy\GetJobVacancyByIdAction;
+use App\Actions\JobVacancy\LogSentEmailAction;
 use App\Actions\JobVacancy\PostNewJobVacancyAction;
 use App\Actions\JobVacancy\SendResponseToJobVacancyAction;
 use App\Actions\JobVacancy\UserResponsesCountForJobVacancyAction;
@@ -14,6 +16,7 @@ use App\Mail\NewResponseAddedToJobVacancy;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyResponse;
 use App\Models\Like;
+use App\Models\SentEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 
@@ -25,7 +28,9 @@ class JobVacancyService
         protected UserResponsesCountForJobVacancyAction $userResponsesCountForJobVacancyAction,
         protected GetJobVacancyAuthorIdAction $getJobVacancyAuthorIdAction,
         protected CheckUserLikedVacancyAction $checkUserLikedVacancyAction,
-        protected GetJobVacancyByIdAction $getJobVacancyByIdAction
+        protected GetJobVacancyByIdAction $getJobVacancyByIdAction,
+        protected CheckJobVacancySentEmailsForLastHourAction $checkJobVacancySentEmailsForLastHourAction,
+        protected LogSentEmailAction $logSentEmailAction
     ) {
     }
 
@@ -62,5 +67,15 @@ class JobVacancyService
     public function getJobVacancyById(int $vacancyId): JobVacancy
     {
         return ($this->getJobVacancyByIdAction)($vacancyId);
+    }
+
+    public function vacancyEmailsForLastHour(int $vacancyId): ?int
+    {
+        return ($this->checkJobVacancySentEmailsForLastHourAction)($vacancyId);
+    }
+
+    public function logSentEmail(int $vacancyId): SentEmail
+    {
+        return ($this->logSentEmailAction)($vacancyId);
     }
 }

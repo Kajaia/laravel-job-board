@@ -39,9 +39,13 @@ class JobVacancyController extends Controller
             if ($this->transactionService->coinsCount() >= 1) {
                 $this->jobVacancyService->sendResponse($request);
 
-                $this->jobVacancyService->sendEmail(
-                    $this->jobVacancyService->getJobVacancyById($request->vacancy_id)
-                );
+                if ($this->jobVacancyService->vacancyEmailsForLastHour($id) < 1) {
+                    $this->jobVacancyService->sendEmail(
+                        $this->jobVacancyService->getJobVacancyById($id)
+                    );
+
+                    $this->jobVacancyService->logSentEmail($id);
+                }
 
                 $this->transactionService->addOrSubtractCoins(1, 'subtract');
 
