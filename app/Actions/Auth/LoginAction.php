@@ -4,7 +4,8 @@ namespace App\Actions\Auth;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 
 class LoginAction
 {
@@ -13,18 +14,23 @@ class LoginAction
     ) {
     }
 
-    public function __invoke(LoginRequest $request): RedirectResponse
+    public function __invoke(LoginRequest $request): JsonResponse
     {
-        $user = $request->validate($request->rules());
+        $request->validate($request->rules());
 
-        if (auth()->attempt($user, $request->boolean('remember'))) {
-            $request->session()->regenerate();
+        $user = $this->model::where('email', $request->email)->first();
 
-            return redirect()->route('home');
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Wrong credentials provided.'
+            ], 403);
         }
 
-        return back()->withErrors([
-            'email' => 'Wrong credentials provided.'
-        ])->onlyInput('email');
+        $token = $user->createToken($request->ip())->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 200);
     }
 }

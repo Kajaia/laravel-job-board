@@ -4,7 +4,7 @@ namespace App\Actions\Auth;
 
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 class RegisterAction
 {
@@ -13,7 +13,7 @@ class RegisterAction
     ) {
     }
 
-    public function __invoke(RegisterRequest $request): RedirectResponse
+    public function __invoke(RegisterRequest $request): JsonResponse
     {
         $request->validate($request->rules());
 
@@ -23,8 +23,11 @@ class RegisterAction
             'password' => bcrypt($request->password)
         ]);
 
-        auth()->login($user);
+        $token = $user->createToken($request->ip())->plainTextToken;
 
-        return redirect()->route('home');
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 }

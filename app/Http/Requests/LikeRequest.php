@@ -24,8 +24,7 @@ class LikeRequest extends FormRequest
     public function rules()
     {
         return [
-            'likeable_type' => 'required|string|max:255',
-            'likeable_id' => 'required|integer'
+            'likeable_type' => 'required|string|max:255'
         ];
     }
 }

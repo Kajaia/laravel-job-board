@@ -11,13 +11,10 @@ use App\Actions\JobVacancy\PostNewJobVacancyAction;
 use App\Actions\JobVacancy\SendResponseToJobVacancyAction;
 use App\Actions\JobVacancy\UserResponsesCountForJobVacancyAction;
 use App\Http\Requests\JobVacancyRequest;
-use App\Http\Requests\JobVacancyResponseRequest;
 use App\Mail\NewResponseAddedToJobVacancy;
 use App\Models\JobVacancy;
-use App\Models\JobVacancyResponse;
-use App\Models\Like;
 use App\Models\SentEmail;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 
 class JobVacancyService
@@ -34,14 +31,14 @@ class JobVacancyService
     ) {
     }
 
-    public function addVacancy(JobVacancyRequest $request): RedirectResponse
+    public function addVacancy(JobVacancyRequest $request): JsonResponse
     {
         return ($this->postNewJobVacancyAction)($request);
     }
 
-    public function sendResponse(JobVacancyResponseRequest $request): JobVacancyResponse
+    public function sendResponse(int $vacancyId): JsonResponse
     {
-        return ($this->sendResponseToJobVacancyAction)($request);
+        return ($this->sendResponseToJobVacancyAction)($vacancyId);
     }
 
     public function userResponsesCount(int $vacancyId): int
@@ -54,7 +51,7 @@ class JobVacancyService
         return ($this->getJobVacancyAuthorIdAction)($vacancyId);
     }
 
-    public function checkUserLikedVacancy(int $vacancyId): ?Like
+    public function checkUserLikedVacancy(int $vacancyId): ?int
     {
         return ($this->checkUserLikedVacancyAction)($vacancyId);
     }

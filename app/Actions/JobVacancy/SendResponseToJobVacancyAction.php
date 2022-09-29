@@ -2,8 +2,8 @@
 
 namespace App\Actions\JobVacancy;
 
-use App\Http\Requests\JobVacancyResponseRequest;
 use App\Models\JobVacancyResponse;
+use Illuminate\Http\JsonResponse;
 
 class SendResponseToJobVacancyAction
 {
@@ -12,13 +12,15 @@ class SendResponseToJobVacancyAction
     ) {
     }
 
-    public function __invoke(JobVacancyResponseRequest $request): JobVacancyResponse
+    public function __invoke(int $vacancyId): JsonResponse
     {
-        $request->validate($request->rules());
-
-        return $this->model->create([
-                'vacancy_id' => $request->vacancy_id,
+        $response = $this->model->create([
+                'vacancy_id' => $vacancyId,
                 'user_id' => auth()->user()->id
             ]);
+
+        return response()->json([
+            'data' => $response
+        ], 201);
     }
 }

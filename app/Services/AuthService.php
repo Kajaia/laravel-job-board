@@ -10,8 +10,7 @@ use App\Actions\Auth\RegisterAction;
 use App\Http\Requests\LikeRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\Like;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 class AuthService
 {
@@ -24,12 +23,12 @@ class AuthService
     ) {
     }
 
-    public function register(RegisterRequest $request): RedirectResponse
+    public function register(RegisterRequest $request): JsonResponse
     {
         return ($this->registerAction)($request);
     }
 
-    public function login(LoginRequest $request): RedirectResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         return ($this->loginAction)($request);
     }
@@ -39,12 +38,12 @@ class AuthService
         return ($this->getUsersIdsAction)();
     }
 
-    public function like(LikeRequest $request): RedirectResponse
+    public function like(LikeRequest $request, int $id): JsonResponse
     {
-        return ($this->likeModelAction)($request);
+        return ($this->likeModelAction)($request, $id);
     }
 
-    public function checkUserLikedAnotherUser(int $userId): ?Like
+    public function checkUserLikedAnotherUser(int $userId): ?int
     {
         return ($this->checkUserLikedAnotherUserAction)($userId);
     }

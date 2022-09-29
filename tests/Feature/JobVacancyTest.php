@@ -34,11 +34,11 @@ class JobVacancyTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->post('/vacancy', $details);
+            ->postJson('/api/v1/vacancy', $details);
 
         $this->assertDatabaseHas('job_vacancies', $details);
 
-        $response->assertStatus(302);
+        $response->assertStatus(201);
     }
 
     public function test_user_can_send_response_to_job_vacancy()
@@ -60,7 +60,7 @@ class JobVacancyTest extends TestCase
         $service->addOrSubtractCoins(1, 'add', $user->id);
 
         $response = $this->actingAs($user)
-            ->post("/vacancy/{$vacancy->id}/response", [
+            ->postJson("/api/v1/vacancy/{$vacancy->id}/response", [
                 'vacancy_id' => $vacancy->id,
                 'user_id' => $user->id
             ]);
@@ -70,7 +70,7 @@ class JobVacancyTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $response->assertStatus(302);
+        $response->assertStatus(201);
     }
 
     public function test_user_can_like_job_vacancy()
@@ -86,8 +86,8 @@ class JobVacancyTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->post("/vacancy/{$vacancy->id}/like", $details);
+            ->postJson("/api/v1/vacancy/{$vacancy->id}/like", $details);
 
-        $response->assertStatus(302);
+        $response->assertStatus(201);
     }
 }

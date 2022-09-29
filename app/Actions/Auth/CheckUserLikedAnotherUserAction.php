@@ -11,13 +11,13 @@ class CheckUserLikedAnotherUserAction
     ) {
     }
 
-    public function __invoke(int $userId): ?Like
+    public function __invoke(int $userId): ?int
     {
         $like = $this->model->where([
                 'likeable_type' => 'App\\Models\\User',
                 'likeable_id' => $userId,
                 'user_id' => auth()->user()->id
-            ])->first();
+            ])->count();
 
         return $like;
     }

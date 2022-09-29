@@ -25,8 +25,7 @@ class JobVacancyRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'author_id' => 'required|integer'
+            'description' => 'nullable|string'
         ];
     }
 }

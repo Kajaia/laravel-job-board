@@ -18,7 +18,7 @@ class AuthTest extends TestCase
     {
         $this->artisan('migrate:fresh');
 
-        $response = $this->post('/register', [
+        $response = $this->postJson('/api/v1/register', [
             'name' => 'John Doe',
             'email' => 'johndoe@mail.com',
             'password' => 'Passw@rd123',
@@ -29,7 +29,7 @@ class AuthTest extends TestCase
             'email' => 'johndoe@mail.com'
         ]);
 
-        $response->assertStatus(302);
+        $response->assertStatus(201);
     }
 
     public function test_user_can_login()
@@ -41,9 +41,9 @@ class AuthTest extends TestCase
 
         $user = User::where('email', $credentials['email'])->first();
 
-        $response = $this->post('login', $credentials);
+        $response = $this->postJson('/api/v1/login', $credentials);
 
-        $response->assertStatus(302);
+        $response->assertStatus(200);
 
         $this->actingAs($user)->get('/');
     }
@@ -65,10 +65,10 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->post("/user/{$taylor->id}/like", $details);
+            ->postJson("/api/v1/user/{$taylor->id}/like", $details);
 
         $this->assertDatabaseHas('likes', $details);
 
-        $response->assertStatus(302);
+        $response->assertStatus(201);
     }
 }

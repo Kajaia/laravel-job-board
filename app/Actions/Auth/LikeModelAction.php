@@ -4,7 +4,7 @@ namespace App\Actions\Auth;
 
 use App\Http\Requests\LikeRequest;
 use App\Models\Like;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 class LikeModelAction
 {
@@ -13,16 +13,18 @@ class LikeModelAction
     ) {
     }
 
-    public function __invoke(LikeRequest $request): RedirectResponse
+    public function __invoke(LikeRequest $request, int $id): JsonResponse
     {
         $request->validate($request->rules());
 
-        $this->model->create([
+        $like = $this->model->create([
             'likeable_type' => $request->likeable_type,
-            'likeable_id' => $request->likeable_id,
+            'likeable_id' => $id,
             'user_id' => auth()->user()->id
         ]);
 
-        return back();
+        return response()->json([
+            'data' => $like
+        ], 201);
     }
 }

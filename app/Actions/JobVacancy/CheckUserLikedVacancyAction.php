@@ -11,13 +11,13 @@ class CheckUserLikedVacancyAction
     ) {
     }
 
-    public function __invoke(int $vacancyId): ?Like
+    public function __invoke(int $vacancyId): ?int
     {
         $like = $this->model->where([
                 'likeable_type' => 'App\\Models\\JobVacancy',
                 'likeable_id' => $vacancyId,
                 'user_id' => auth()->user()->id
-            ])->first();
+            ])->count();
 
         return $like;
     }

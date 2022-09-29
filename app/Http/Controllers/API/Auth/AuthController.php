@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LikeRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -16,26 +16,30 @@ class AuthController extends Controller
     ) {
     }
 
-    public function register(RegisterRequest $request): RedirectResponse
+    public function register(RegisterRequest $request): JsonResponse
     {
         return $this->authService->register($request);
     }
 
-    public function login(LoginRequest $request): RedirectResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         return $this->authService->login($request);
     }
 
-    public function likeUser(LikeRequest $request, int $id): RedirectResponse
+    public function likeUser(LikeRequest $request, int $id): JsonResponse
     {
         if ($id !== auth()->user()->id) {
             if (!$this->authService->checkUserLikedAnotherUser($id)) {
-                return $this->authService->like($request);
+                return $this->authService->like($request, $id);
             } else {
-                return back()->with('message', 'You already liked this user.');
+                return response()->json([
+                    'message' => 'You already liked this user.'
+                ], 403);
             }
         }
 
-        return back()->with('message', 'You can\'t like yourself.');
+        return response()->json([
+            'message' => 'You can\'t like yourself.'
+        ], 403);
     }
 }
