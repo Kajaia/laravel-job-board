@@ -1,0 +1,422 @@
+{
+    "info": {
+        "_postman_id": "0246f87e-506a-4124-ba90-5862f3bd0630",
+        "name": "JobBoard",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "15609271"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "name",
+                                    "value": "John Doe",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "johndoe@mail.com",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "password",
+                                    "value": "Passw@rd123",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "password_confirmation",
+                                    "value": "Passw@rd123",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/register",
+                            "host": ["{{base_url}}"],
+                            "path": ["register"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "email",
+                                    "value": "johndoe@mail.com",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "password",
+                                    "value": "Passw@rd123",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/login",
+                            "host": ["{{base_url}}"],
+                            "path": ["login"]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "auth": {
+                "type": "noauth"
+            },
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [""]
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [""]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "JobVacancy",
+            "item": [
+                {
+                    "name": "Vacancies list",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vacancy?sortBy=responses_count&sortDirection=desc",
+                            "host": ["{{base_url}}"],
+                            "path": ["vacancy"],
+                            "query": [
+                                {
+                                    "key": "sortBy",
+                                    "value": "responses_count"
+                                },
+                                {
+                                    "key": "sortDirection",
+                                    "value": "desc"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Vacancy",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vacancy/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["vacancy", "1"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Add vacancy",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "title",
+                                    "value": "Lorem ipsum",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Lorem ipsum dolor, sit amet...",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/vacancy",
+                            "host": ["{{base_url}}"],
+                            "path": ["vacancy"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update vacancy",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "title",
+                                    "value": "New title",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Lorem ipsum dolor, sit amet...",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/vacancy/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["vacancy", "1"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete vacancy",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vacancy/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["vacancy", "1"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send response",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": []
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/vacancy/2/response",
+                            "host": ["{{base_url}}"],
+                            "path": ["vacancy", "2", "response"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete response",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vacancy/1/response",
+                            "host": ["{{base_url}}"],
+                            "path": ["vacancy", "1", "response"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Like vacancy",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "likeable_type",
+                                    "value": "App\\Models\\JobVacancy",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/vacancy/2/like",
+                            "host": ["{{base_url}}"],
+                            "path": ["vacancy", "2", "like"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Like user",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "likeable_type",
+                                    "value": "App\\Models\\User",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/user/2/like",
+                            "host": ["{{base_url}}"],
+                            "path": ["user", "2", "like"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Liked vacancies",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/liked/vacancies",
+                            "host": ["{{base_url}}"],
+                            "path": ["liked", "vacancies"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Liked users",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/liked/users",
+                            "host": ["{{base_url}}"],
+                            "path": ["liked", "users"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "5|7HZbRi1eekCDKCRZmY0Zv4zm4Jc0xLocQHI1E9ZV",
+                "type": "string"
+            }
+        ]
+    },
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [""]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [""]
+            }
+        }
+    ]
+}

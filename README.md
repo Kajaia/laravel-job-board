@@ -10,3 +10,7 @@
 6. Create two databases: `sudo mysql` one for project `create database laravel_job_board` and one for testing `create database testing`
 7. Migrate database `php artisan migrate`
 8. Run your project `php artisan serve` and visit `http://127.0.0.1:8000`
+
+## API Docs
+
+For API collections use json file provided inside postman directory
