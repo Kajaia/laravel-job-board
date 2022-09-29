@@ -90,4 +90,14 @@ class JobVacancyTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    public function test_user_or_guest_can_get_job_vacancies()
+    {
+        $user = User::findOrFail(2);
+        $auth = $this->actingAs($user)->getJson('/api/v1/vacancy');
+        $auth->assertStatus(200);
+
+        $guest = $this->getJson('/api/v1/vacancy');
+        $guest->assertStatus(200);
+    }
 }

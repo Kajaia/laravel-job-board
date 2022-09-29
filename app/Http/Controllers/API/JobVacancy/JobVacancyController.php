@@ -19,6 +19,11 @@ class JobVacancyController extends Controller
     ) {
     }
 
+    public function vacancies(): JsonResponse
+    {
+        return $this->jobVacancyService->getVacanciesList();
+    }
+
     public function addVacancy(JobVacancyRequest $request): JsonResponse
     {
         if ($this->transactionService->coinsCount() >= 2) {

@@ -6,6 +6,7 @@ use App\Actions\JobVacancy\CheckJobVacancySentEmailsForLastHourAction;
 use App\Actions\JobVacancy\CheckUserLikedVacancyAction;
 use App\Actions\JobVacancy\GetJobVacancyAuthorIdAction;
 use App\Actions\JobVacancy\GetJobVacancyByIdAction;
+use App\Actions\JobVacancy\GetVacanciesListAction;
 use App\Actions\JobVacancy\LogSentEmailAction;
 use App\Actions\JobVacancy\PostNewJobVacancyAction;
 use App\Actions\JobVacancy\SendResponseToJobVacancyAction;
@@ -27,8 +28,14 @@ class JobVacancyService
         protected CheckUserLikedVacancyAction $checkUserLikedVacancyAction,
         protected GetJobVacancyByIdAction $getJobVacancyByIdAction,
         protected CheckJobVacancySentEmailsForLastHourAction $checkJobVacancySentEmailsForLastHourAction,
-        protected LogSentEmailAction $logSentEmailAction
+        protected LogSentEmailAction $logSentEmailAction,
+        protected GetVacanciesListAction $getVacanciesListAction
     ) {
+    }
+
+    public function getVacanciesList(): JsonResponse
+    {
+        return ($this->getVacanciesListAction)();
     }
 
     public function addVacancy(JobVacancyRequest $request): JsonResponse
