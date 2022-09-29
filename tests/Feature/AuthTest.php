@@ -71,4 +71,14 @@ class AuthTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    public function test_user_can_get_liked_users()
+    {
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user)
+            ->getJson('/api/v1/liked/users');
+
+        $response->assertStatus(200);
+    }
 }

@@ -33,5 +33,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/vacancy/{id}/like', [JobVacancyController::class, 'likeVacancy']);
         Route::post('/user/{id}/like', [AuthController::class, 'likeUser']);
         Route::get('/liked/vacancies', [JobVacancyController::class, 'likedVacancies']);
+        Route::get('/liked/users', [AuthController::class, 'likedUsers']);
     });
 });

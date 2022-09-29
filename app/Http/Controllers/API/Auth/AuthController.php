@@ -42,4 +42,9 @@ class AuthController extends Controller
             'message' => 'You can\'t like yourself.'
         ], 403);
     }
+
+    public function likedUsers(): JsonResponse
+    {
+        return $this->authService->likedUsers();
+    }
 }
