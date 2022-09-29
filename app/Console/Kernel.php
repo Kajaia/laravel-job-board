@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Services\TransactionService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,7 +16,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $transactionService = app(TransactionService::class);
+
+        $schedule->call(function () use ($transactionService) {
+            $transactionService->giveCoinsToUserDaily();
+        })->daily();
     }
 
     /**

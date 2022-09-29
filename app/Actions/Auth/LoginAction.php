@@ -9,17 +9,16 @@ use Illuminate\Http\RedirectResponse;
 class LoginAction
 {
     public function __construct(
-        protected User $model,
-        protected LoginRequest $request,
+        protected User $model
     ) {
     }
 
-    public function __invoke(): RedirectResponse
+    public function __invoke(LoginRequest $request): RedirectResponse
     {
-        $user = $this->request->validate($this->request->rules());
+        $user = $request->validate($request->rules());
 
-        if (auth()->attempt($user, $this->request->boolean('remember'))) {
-            $this->request->session()->regenerate();
+        if (auth()->attempt($user, $request->boolean('remember'))) {
+            $request->session()->regenerate();
 
             return redirect()->route('home');
         }

@@ -9,19 +9,18 @@ use Illuminate\Http\RedirectResponse;
 class RegisterAction
 {
     public function __construct(
-        protected User $model,
-        protected RegisterRequest $request,
+        protected User $model
     ) {
     }
 
-    public function __invoke(): RedirectResponse
+    public function __invoke(RegisterRequest $request): RedirectResponse
     {
-        $this->request->validate($this->request->rules());
+        $request->validate($request->rules());
 
         $user = $this->model->create([
-            'name' => $this->request->name,
-            'email' => $this->request->email,
-            'password' => bcrypt($this->request->password)
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
         ]);
 
         auth()->login($user);

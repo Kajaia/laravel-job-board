@@ -11,16 +11,16 @@ class GetUserCoinsAction
     ) {
     }
 
-    public function __invoke(): int
+    public function __invoke(?int $userId = null): int
     {
         $add = $this->model->where([
                 'type' => 'add',
-                'user_id' => auth()->user()->id
+                'user_id' => $userId ? $userId : auth()->user()->id
             ])->sum('coins');
 
         $subtract = $this->model->where([
                 'type' => 'subtract',
-                'user_id' => auth()->user()->id
+                'user_id' => $userId ? $userId : auth()->user()->id
             ])->sum('coins');
 
         return $add - $subtract;

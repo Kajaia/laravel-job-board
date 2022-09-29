@@ -2,25 +2,34 @@
 
 namespace App\Services;
 
+use App\Actions\Auth\GetUsersIdsAction;
 use App\Actions\Auth\LoginAction;
 use App\Actions\Auth\RegisterAction;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\RedirectResponse;
 
 class AuthService
 {
     public function __construct(
         protected RegisterAction $registerAction,
-        protected LoginAction $loginAction
+        protected LoginAction $loginAction,
+        protected GetUsersIdsAction $getUsersIdsAction
     ) {
     }
 
-    public function register(): RedirectResponse
+    public function register(RegisterRequest $request): RedirectResponse
     {
-        return ($this->registerAction)();
+        return ($this->registerAction)($request);
     }
 
-    public function login(): RedirectResponse
+    public function login(LoginRequest $request): RedirectResponse
     {
-        return ($this->loginAction)();
+        return ($this->loginAction)($request);
+    }
+
+    public function getUsersIds(): array
+    {
+        return ($this->getUsersIdsAction)();
     }
 }

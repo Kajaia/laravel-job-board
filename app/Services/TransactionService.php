@@ -10,17 +10,27 @@ class TransactionService
 {
     public function __construct(
         protected GetUserCoinsAction $getUserCoinsAction,
-        protected AddOrSubtractUserCoinsAction $addOrSubtractUserCoinsAction
+        protected AddOrSubtractUserCoinsAction $addOrSubtractUserCoinsAction,
+        protected AuthService $authService
     ) {
     }
 
-    public function coinsCount(): int
+    public function coinsCount(?int $userId = null): int
     {
-        return ($this->getUserCoinsAction)();
+        return ($this->getUserCoinsAction)($userId);
     }
 
     public function addOrSubtractCoins(int $amount, string $type, ?int $userId = null): UserCoin
     {
         return ($this->addOrSubtractUserCoinsAction)($amount, $type, $userId);
+    }
+
+    public function giveCoinsToUserDaily(): void
+    {
+        foreach ($this->authService->getUsersIds() as $userId) {
+            if ($this->coinsCount($userId) < 5) {
+                $this->addOrSubtractCoins(1, 'add', $userId);
+            }
+        }
     }
 }
