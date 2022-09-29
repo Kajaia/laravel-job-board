@@ -29,7 +29,11 @@ class AuthController extends Controller
     public function likeUser(LikeRequest $request, int $id): RedirectResponse
     {
         if ($id !== auth()->user()->id) {
-            return $this->authService->like($request);
+            if (!$this->authService->checkUserLikedAnotherUser($id)) {
+                return $this->authService->like($request);
+            } else {
+                return back()->with('message', 'You already liked this user.');
+            }
         }
 
         return back()->with('message', 'You can\'t like yourself.');

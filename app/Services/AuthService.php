@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Actions\Auth\CheckUserLikedAnotherUserAction;
 use App\Actions\Auth\GetUsersIdsAction;
 use App\Actions\Auth\LikeModelAction;
 use App\Actions\Auth\LoginAction;
@@ -9,6 +10,7 @@ use App\Actions\Auth\RegisterAction;
 use App\Http\Requests\LikeRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Like;
 use Illuminate\Http\RedirectResponse;
 
 class AuthService
@@ -17,7 +19,8 @@ class AuthService
         protected RegisterAction $registerAction,
         protected LoginAction $loginAction,
         protected GetUsersIdsAction $getUsersIdsAction,
-        protected LikeModelAction $likeModelAction
+        protected LikeModelAction $likeModelAction,
+        protected CheckUserLikedAnotherUserAction $checkUserLikedAnotherUserAction
     ) {
     }
 
@@ -39,5 +42,10 @@ class AuthService
     public function like(LikeRequest $request): RedirectResponse
     {
         return ($this->likeModelAction)($request);
+    }
+
+    public function checkUserLikedAnotherUser(int $userId): ?Like
+    {
+        return ($this->checkUserLikedAnotherUserAction)($userId);
     }
 }
