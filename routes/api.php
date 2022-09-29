@@ -32,5 +32,6 @@ Route::prefix('v1')->group(function () {
         Route::delete('/vacancy/{id}/response', [JobVacancyController::class, 'deleteResponse']);
         Route::post('/vacancy/{id}/like', [JobVacancyController::class, 'likeVacancy']);
         Route::post('/user/{id}/like', [AuthController::class, 'likeUser']);
+        Route::get('/liked/vacancies', [JobVacancyController::class, 'likedVacancies']);
     });
 });

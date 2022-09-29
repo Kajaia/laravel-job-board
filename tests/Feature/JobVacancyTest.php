@@ -177,4 +177,14 @@ class JobVacancyTest extends TestCase
             ->deleteJson("/api/v1/vacancy/{$anotherVacancy->id}");
         $notOwner->assertStatus(403);
     }
+
+    public function test_user_can_get_liked_vacancies()
+    {
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user)
+            ->getJson('/api/v1/liked/vacancies');
+
+        $response->assertStatus(200);
+    }
 }

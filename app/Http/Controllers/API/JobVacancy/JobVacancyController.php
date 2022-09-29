@@ -123,6 +123,11 @@ class JobVacancyController extends Controller
         ], 403);
     }
 
+    public function likedVacancies(): JsonResponse
+    {
+        return $this->jobVacancyService->likedVacancies();
+    }
+
     public function vacancyAuthorIsNotAuthUser(int $vacancyId): bool
     {
         return $this->jobVacancyService->getJobVacancyAuthorId($vacancyId) !== auth()->user()->id;

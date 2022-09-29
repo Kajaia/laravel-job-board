@@ -8,6 +8,7 @@ use App\Actions\JobVacancy\DeleteJobVacancyAction;
 use App\Actions\JobVacancy\DeleteJobVacancyResponseAction;
 use App\Actions\JobVacancy\GetJobVacancyAuthorIdAction;
 use App\Actions\JobVacancy\GetJobVacancyByIdAction;
+use App\Actions\JobVacancy\GetLikedVacanciesAction;
 use App\Actions\JobVacancy\GetVacanciesListAction;
 use App\Actions\JobVacancy\LogSentEmailAction;
 use App\Actions\JobVacancy\PostNewJobVacancyAction;
@@ -35,7 +36,8 @@ class JobVacancyService
         protected GetVacanciesListAction $getVacanciesListAction,
         protected UpdateJobVacancyAction $updateJobVacancyAction,
         protected DeleteJobVacancyAction $deleteJobVacancyAction,
-        protected DeleteJobVacancyResponseAction $deleteJobVacancyResponseAction
+        protected DeleteJobVacancyResponseAction $deleteJobVacancyResponseAction,
+        protected GetLikedVacanciesAction $getLikedVacanciesAction
     ) {
     }
 
@@ -102,5 +104,10 @@ class JobVacancyService
     public function logSentEmail(int $vacancyId): SentEmail
     {
         return ($this->logSentEmailAction)($vacancyId);
+    }
+
+    public function likedVacancies(): JsonResponse
+    {
+        return ($this->getLikedVacanciesAction)();
     }
 }
