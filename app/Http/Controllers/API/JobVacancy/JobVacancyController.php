@@ -101,6 +101,11 @@ class JobVacancyController extends Controller
         ], 403);
     }
 
+    public function deleteResponse(int $id): JsonResponse
+    {
+        return $this->jobVacancyService->deleteResponse($id);
+    }
+
     public function likeVacancy(LikeRequest $request, int $id): JsonResponse
     {
         if ($this->vacancyAuthorIsNotAuthUser($id)) {

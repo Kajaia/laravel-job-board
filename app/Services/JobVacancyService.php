@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Actions\JobVacancy\CheckJobVacancySentEmailsForLastHourAction;
 use App\Actions\JobVacancy\CheckUserLikedVacancyAction;
 use App\Actions\JobVacancy\DeleteJobVacancyAction;
+use App\Actions\JobVacancy\DeleteJobVacancyResponseAction;
 use App\Actions\JobVacancy\GetJobVacancyAuthorIdAction;
 use App\Actions\JobVacancy\GetJobVacancyByIdAction;
 use App\Actions\JobVacancy\GetVacanciesListAction;
@@ -33,7 +34,8 @@ class JobVacancyService
         protected LogSentEmailAction $logSentEmailAction,
         protected GetVacanciesListAction $getVacanciesListAction,
         protected UpdateJobVacancyAction $updateJobVacancyAction,
-        protected DeleteJobVacancyAction $deleteJobVacancyAction
+        protected DeleteJobVacancyAction $deleteJobVacancyAction,
+        protected DeleteJobVacancyResponseAction $deleteJobVacancyResponseAction
     ) {
     }
 
@@ -47,11 +49,6 @@ class JobVacancyService
         return ($this->postNewJobVacancyAction)($request);
     }
 
-    public function sendResponse(int $vacancyId): JsonResponse
-    {
-        return ($this->sendResponseToJobVacancyAction)($vacancyId);
-    }
-
     public function updateVacancy(JobVacancyRequest $request, int $id): JsonResponse
     {
         return ($this->updateJobVacancyAction)($request, $id);
@@ -60,6 +57,16 @@ class JobVacancyService
     public function deleteVacancy(int $id): JsonResponse
     {
         return ($this->deleteJobVacancyAction)($id);
+    }
+
+    public function sendResponse(int $vacancyId): JsonResponse
+    {
+        return ($this->sendResponseToJobVacancyAction)($vacancyId);
+    }
+
+    public function deleteResponse(int $vacancyId): JsonResponse
+    {
+        return ($this->deleteJobVacancyResponseAction)($vacancyId);
     }
 
     public function userResponsesCount(int $vacancyId): int

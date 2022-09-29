@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\JobVacancy;
+use App\Models\JobVacancyResponse;
 use App\Models\User;
 use App\Services\TransactionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -134,6 +135,27 @@ class JobVacancyTest extends TestCase
             ->putJson("/api/v1/vacancy/{$anotherVacancy->id}", [
                 'title' => 'New title'
             ]);
+        $notOwner->assertStatus(403);
+    }
+
+    public function test_response_can_be_deleted_only_by_creator()
+    {
+        $user = User::findOrFail(3);
+        $vacancy = JobVacancy::findOrFail(2);
+        $owner = $this->actingAs($user)
+            ->deleteJson("/api/v1/vacancy/{$vacancy->id}/response");
+        $owner->assertStatus(200);
+
+        $anotherUser = User::findOrFail(1);
+        $anotherVacancy = JobVacancy::findOrFail(3);
+
+        JobVacancyResponse::create([
+            'vacancy_id' => $anotherVacancy->id,
+            'user_id' => $user->id
+        ]);
+
+        $notOwner = $this->actingAs($anotherUser)
+            ->deleteJson("/api/v1/vacancy/{$anotherVacancy->id}/response");
         $notOwner->assertStatus(403);
     }
 
