@@ -12,12 +12,12 @@ class SendResponseToJobVacancyAction
     ) {
     }
 
-    public function __invoke(JobVacancyResponseRequest $request, int $vacancyId): JobVacancyResponse
+    public function __invoke(JobVacancyResponseRequest $request): JobVacancyResponse
     {
         $request->validate($request->rules());
 
         return $this->model->create([
-                'vacancy_id' => $vacancyId,
+                'vacancy_id' => $request->vacancy_id,
                 'user_id' => auth()->user()->id
             ]);
     }

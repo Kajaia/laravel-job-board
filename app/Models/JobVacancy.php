@@ -30,7 +30,7 @@ class JobVacancy extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function vacancies(): HasMany
+    public function responses(): HasMany
     {
         return $this->hasMany(JobVacancyResponse::class, 'vacancy_id');
     }
