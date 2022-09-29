@@ -14,7 +14,14 @@ class GetVacanciesListAction
 
     public function __invoke(): JsonResponse
     {
-        $vacancies = $this->model->with('author')->paginate();
+        $sortBy = request('sortBy');
+        $sortDirection = request('sortDirection');
+
+        $vacancies = $this->model->with('author')
+            ->withCount('responses')
+            ->when($sortBy && $sortDirection, function ($query) use ($sortBy, $sortDirection) {
+                $query->orderBy($sortBy, $sortDirection);
+            })->paginate();
 
         return response()->json([
             'data' => $vacancies
