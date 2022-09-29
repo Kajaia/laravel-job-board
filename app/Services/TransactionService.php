@@ -11,7 +11,8 @@ class TransactionService
     public function __construct(
         protected GetUserCoinsAction $getUserCoinsAction,
         protected AddOrSubtractUserCoinsAction $addOrSubtractUserCoinsAction
-    ) {}
+    ) {
+    }
 
     public function coinsCount(): int
     {

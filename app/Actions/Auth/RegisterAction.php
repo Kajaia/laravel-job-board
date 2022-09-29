@@ -11,7 +11,8 @@ class RegisterAction
     public function __construct(
         protected User $model,
         protected RegisterRequest $request,
-    ) {}
+    ) {
+    }
 
     public function __invoke(): RedirectResponse
     {

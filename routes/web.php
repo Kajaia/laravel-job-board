@@ -15,16 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('guest')->group(function() {
+Route::middleware('guest')->group(function () {
     Route::view('/', 'welcome')->name('home');
 
-    Route::name('auth.')->group(function() {
+    Route::name('auth.')->group(function () {
         Route::post('/register', [AuthController::class, 'register'])->name('register');
         Route::post('/login', [AuthController::class, 'login'])->name('login');
     });
 });
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function () {
     Route::post('/vacancy', [JobVacancyController::class, 'addVacancy'])->name('vacancy.store');
     Route::post('/vacancy/{id}/response', [JobVacancyController::class, 'sendResponse'])->name('vacancy.store.response');
 });

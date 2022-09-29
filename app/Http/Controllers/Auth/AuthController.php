@@ -10,7 +10,8 @@ class AuthController extends Controller
 {
     public function __construct(
         protected AuthService $authService
-    ) {}
+    ) {
+    }
 
     public function register(): RedirectResponse
     {

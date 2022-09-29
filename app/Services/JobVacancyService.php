@@ -16,7 +16,8 @@ class JobVacancyService
         protected PostNewJobVacancyAction $postNewJobVacancyAction,
         protected SendResponseToJobVacancyAction $sendResponseToJobVacancyAction,
         protected UserResponsesCountForJobVacancyAction $userResponsesCountForJobVacancyAction
-    ) {}
+    ) {
+    }
 
     public function addVacancy(JobVacancyRequest $request): RedirectResponse
     {

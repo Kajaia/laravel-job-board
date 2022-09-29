@@ -8,7 +8,8 @@ class UserResponsesCountForJobVacancyAction
 {
     public function __construct(
         protected JobVacancyResponse $model
-    ) {}
+    ) {
+    }
 
     public function __invoke(int $vacancyId): int
     {

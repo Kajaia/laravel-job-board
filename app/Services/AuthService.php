@@ -11,7 +11,8 @@ class AuthService
     public function __construct(
         protected RegisterAction $registerAction,
         protected LoginAction $loginAction
-    ) {}
+    ) {
+    }
 
     public function register(): RedirectResponse
     {

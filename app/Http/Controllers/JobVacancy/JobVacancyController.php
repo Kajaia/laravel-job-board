@@ -14,16 +14,16 @@ class JobVacancyController extends Controller
     public function __construct(
         protected JobVacancyService $jobVacancyService,
         protected TransactionService $transactionService
-    ) {}
+    ) {
+    }
 
     public function addVacancy(JobVacancyRequest $request): RedirectResponse
     {
-        if($this->transactionService->coinsCount() >= 2)
-        {
+        if ($this->transactionService->coinsCount() >= 2) {
             $this->jobVacancyService->addVacancy($request);
-            
+
             $this->transactionService->addOrSubtractCoins(2, 'subtract');
-            
+
             return back();
         }
 
@@ -32,8 +32,7 @@ class JobVacancyController extends Controller
 
     public function sendResponse(JobVacancyResponseRequest $request, int $id): RedirectResponse
     {
-        if($this->jobVacancyService->userResponsesCount($id) < 1)
-        {
+        if ($this->jobVacancyService->userResponsesCount($id) < 1) {
             $this->jobVacancyService->sendResponse($request, $id);
 
             return back();

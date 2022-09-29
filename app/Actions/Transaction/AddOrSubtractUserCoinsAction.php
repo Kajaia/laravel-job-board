@@ -8,7 +8,8 @@ class AddOrSubtractUserCoinsAction
 {
     public function __construct(
         protected UserCoin $model
-    ) {}
+    ) {
+    }
 
     public function __invoke(int $amount, string $type, ?int $userId = null): UserCoin
     {

@@ -8,7 +8,8 @@ class GetUserCoinsAction
 {
     public function __construct(
         protected UserCoin $model
-    ) {}
+    ) {
+    }
 
     public function __invoke(): int
     {

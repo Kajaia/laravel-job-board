@@ -10,14 +10,14 @@ class PostNewJobVacancyAction
 {
     public function __construct(
         protected JobVacancy $model
-    ) {}
+    ) {
+    }
 
     public function __invoke(JobVacancyRequest $request): RedirectResponse
     {
         $request->validate($request->rules());
 
-        if($this->userHasNoJobVacancies())
-        {
+        if ($this->userHasNoJobVacancies()) {
             $this->model->create([
                 'title' => $request->title,
                 'description' => $request->description,
