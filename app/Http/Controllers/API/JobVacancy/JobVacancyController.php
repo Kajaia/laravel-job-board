@@ -57,7 +57,7 @@ class JobVacancyController extends Controller
     public function addVacancy(JobVacancyRequest $request): JsonResponse
     {
         if ($this->transactionService->coinsCount() >= 2) {
-            $this->transactionService->addOrSubtractCoins(2, 'subtract');
+            $this->transactionService->addOrSubtractCoins(-2);
 
             return $this->jobVacancyService->addVacancy($request);
         }
@@ -82,7 +82,7 @@ class JobVacancyController extends Controller
                         $this->jobVacancyService->logSentEmail($vacancy->id);
                     }
 
-                    $this->transactionService->addOrSubtractCoins(1, 'subtract');
+                    $this->transactionService->addOrSubtractCoins(-1);
 
                     return $response;
                 } else {

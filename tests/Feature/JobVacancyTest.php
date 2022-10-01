@@ -23,7 +23,7 @@ class JobVacancyTest extends TestCase
 
         // We can't post new job if user has no coins, so let's give some
         $service = app(TransactionService::class);
-        $service->addOrSubtractCoins(2, 'add', $user->id);
+        $service->addOrSubtractCoins(2, $user->id);
 
         $title = fake()->word();
         $desc = fake()->text(150);
@@ -58,7 +58,7 @@ class JobVacancyTest extends TestCase
 
         // User can't send response without coins, let's give some
         $service = app(TransactionService::class);
-        $service->addOrSubtractCoins(1, 'add', $user->id);
+        $service->addOrSubtractCoins(1, $user->id);
 
         $response = $this->actingAs($user)
             ->postJson("/api/v1/vacancy/{$vacancy->id}/response", [

@@ -11,11 +11,10 @@ class AddOrSubtractUserCoinsAction
     ) {
     }
 
-    public function __invoke(int $amount, string $type, ?int $userId = null): UserCoin
+    public function __invoke(int $amount, ?int $userId = null): UserCoin
     {
         return $this->model->create([
                 'coins' => $amount,
-                'type' => $type,
                 'user_id' => $userId ? $userId : auth()->user()->id
             ]);
     }
