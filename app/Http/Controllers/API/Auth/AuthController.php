@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LikeRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 
@@ -26,11 +27,11 @@ class AuthController extends Controller
         return $this->authService->login($request);
     }
 
-    public function likeUser(LikeRequest $request, int $id): JsonResponse
+    public function likeUser(LikeRequest $request, User $user): JsonResponse
     {
-        if ($id !== auth()->user()->id) {
-            if (!$this->authService->checkUserLikedAnotherUser($id)) {
-                return $this->authService->like($request, $id);
+        if ($user->id !== auth()->user()->id) {
+            if (!$this->authService->checkUserLikedAnotherUser($user->id)) {
+                return $this->authService->like($request, $user->id);
             } else {
                 return response()->json([
                     'message' => 'You already liked this user.'
