@@ -28,9 +28,7 @@ class TransactionService
     public function giveCoinsToUserDaily(): void
     {
         foreach ($this->authService->getUsersIds() as $userId) {
-            if ($this->coinsCount($userId) < 5) {
-                $this->addOrSubtractCoins(1, $userId);
-            }
+            $this->addOrSubtractCoins(1, $userId);
         }
     }
 }

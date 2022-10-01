@@ -13,6 +13,10 @@ class GetUsersIdsAction
 
     public function __invoke(): array
     {
-        return $this->model->pluck('id')->toArray();
+        return $this->model->query()
+            ->withCount('coins')
+            ->having('coins_count', '<', config('transactions.coins.max'))
+            ->pluck('id')
+            ->toArray();
     }
 }
