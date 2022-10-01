@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\AuthService;
 use App\Services\TransactionService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -34,6 +35,16 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         return $this->authService->login($request);
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        $user = auth()->user();
+        $user->tokens()->delete();
+
+        return response()->json([
+            'message' => 'You logged out successfully.'
+        ], 200);
     }
 
     public function likeUser(LikeRequest $request, User $user): JsonResponse
