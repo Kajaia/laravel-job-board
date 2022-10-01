@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::get('/vacancy', [JobVacancyController::class, 'vacancies']);
-    Route::get('/vacancy/{id}', [JobVacancyController::class, 'vacancy']);
+    Route::get('/vacancy/{vacancy}', [JobVacancyController::class, 'vacancy']);
 
     Route::middleware('guest')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
@@ -26,11 +26,11 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/vacancy', [JobVacancyController::class, 'addVacancy']);
-        Route::put('/vacancy/{id}', [JobVacancyController::class, 'updateVacancy']);
-        Route::delete('/vacancy/{id}', [JobVacancyController::class, 'deleteVacancy']);
-        Route::post('/vacancy/{id}/response', [JobVacancyController::class, 'sendResponse']);
-        Route::delete('/vacancy/{id}/response', [JobVacancyController::class, 'deleteResponse']);
-        Route::post('/vacancy/{id}/like', [JobVacancyController::class, 'likeVacancy']);
+        Route::put('/vacancy/{vacancy}', [JobVacancyController::class, 'updateVacancy']);
+        Route::delete('/vacancy/{vacancy}', [JobVacancyController::class, 'deleteVacancy']);
+        Route::post('/vacancy/{vacancy}/response', [JobVacancyController::class, 'sendResponse']);
+        Route::delete('/vacancy/{vacancy}/response', [JobVacancyController::class, 'deleteResponse']);
+        Route::post('/vacancy/{vacancy}/like', [JobVacancyController::class, 'likeVacancy']);
         Route::post('/user/{id}/like', [AuthController::class, 'likeUser']);
         Route::get('/liked/vacancies', [JobVacancyController::class, 'likedVacancies']);
         Route::get('/liked/users', [AuthController::class, 'likedUsers']);

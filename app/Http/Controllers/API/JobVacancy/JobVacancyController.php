@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\JobVacancy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobVacancyRequest;
 use App\Http\Requests\LikeRequest;
+use App\Models\JobVacancy;
 use App\Services\AuthService;
 use App\Services\JobVacancyService;
 use App\Services\TransactionService;
@@ -24,17 +25,17 @@ class JobVacancyController extends Controller
         return $this->jobVacancyService->getVacanciesList();
     }
 
-    public function vacancy(int $id): JsonResponse
+    public function vacancy(JobVacancy $vacancy): JsonResponse
     {
         return response()->json([
-            'data' => $this->jobVacancyService->getJobVacancyById($id)
+            'data' => $this->jobVacancyService->getJobVacancyById($vacancy->id)
         ], 200);
     }
 
-    public function updateVacancy(JobVacancyRequest $request, int $id): JsonResponse
+    public function updateVacancy(JobVacancyRequest $request, JobVacancy $vacancy): JsonResponse
     {
-        if (!$this->vacancyAuthorIsNotAuthUser($id)) {
-            return $this->jobVacancyService->updateVacancy($request, $id);
+        if (!$this->vacancyAuthorIsNotAuthUser($vacancy->id)) {
+            return $this->jobVacancyService->updateVacancy($request, $vacancy->id);
         }
 
         return response()->json([
@@ -42,10 +43,10 @@ class JobVacancyController extends Controller
         ], 403);
     }
 
-    public function deleteVacancy(int $id): JsonResponse
+    public function deleteVacancy(JobVacancy $vacancy): JsonResponse
     {
-        if (!$this->vacancyAuthorIsNotAuthUser($id)) {
-            return $this->jobVacancyService->deleteVacancy($id);
+        if (!$this->vacancyAuthorIsNotAuthUser($vacancy->id)) {
+            return $this->jobVacancyService->deleteVacancy($vacancy->id);
         }
 
         return response()->json([
@@ -66,19 +67,19 @@ class JobVacancyController extends Controller
         ], 403);
     }
 
-    public function sendResponse(int $id): JsonResponse
+    public function sendResponse(JobVacancy $vacancy): JsonResponse
     {
-        if ($this->vacancyAuthorIsNotAuthUser($id)) {
-            if ($this->jobVacancyService->userResponsesCount($id) < 1) {
+        if ($this->vacancyAuthorIsNotAuthUser($vacancy->id)) {
+            if ($this->jobVacancyService->userResponsesCount($vacancy->id) < 1) {
                 if ($this->transactionService->coinsCount() >= 1) {
-                    $response = $this->jobVacancyService->sendResponse($id);
+                    $response = $this->jobVacancyService->sendResponse($vacancy->id);
 
-                    if ($this->jobVacancyService->vacancyEmailsForLastHour($id) < 1) {
+                    if ($this->jobVacancyService->vacancyEmailsForLastHour($vacancy->id) < 1) {
                         $this->jobVacancyService->sendEmail(
-                            $this->jobVacancyService->getJobVacancyById($id)
+                            $this->jobVacancyService->getJobVacancyById($vacancy->id)
                         );
 
-                        $this->jobVacancyService->logSentEmail($id);
+                        $this->jobVacancyService->logSentEmail($vacancy->id);
                     }
 
                     $this->transactionService->addOrSubtractCoins(1, 'subtract');
@@ -101,16 +102,16 @@ class JobVacancyController extends Controller
         ], 403);
     }
 
-    public function deleteResponse(int $id): JsonResponse
+    public function deleteResponse(JobVacancy $vacancy): JsonResponse
     {
-        return $this->jobVacancyService->deleteResponse($id);
+        return $this->jobVacancyService->deleteResponse($vacancy->id);
     }
 
-    public function likeVacancy(LikeRequest $request, int $id): JsonResponse
+    public function likeVacancy(LikeRequest $request, JobVacancy $vacancy): JsonResponse
     {
-        if ($this->vacancyAuthorIsNotAuthUser($id)) {
-            if (!$this->jobVacancyService->checkUserLikedVacancy($id)) {
-                return $this->authService->like($request, $id);
+        if ($this->vacancyAuthorIsNotAuthUser($vacancy->id)) {
+            if (!$this->jobVacancyService->checkUserLikedVacancy($vacancy->id)) {
+                return $this->authService->like($request, $vacancy->id);
             } else {
                 return response()->json([
                     'message' => 'You already liked this vacancy.'
