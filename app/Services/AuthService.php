@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Actions\Auth\CheckUserLikedAnotherUserAction;
+use App\Actions\Auth\GetLastUserIdAction;
 use App\Actions\Auth\GetLikedUsersAction;
 use App\Actions\Auth\GetUsersIdsAction;
 use App\Actions\Auth\LikeModelAction;
@@ -21,7 +22,8 @@ class AuthService
         protected GetUsersIdsAction $getUsersIdsAction,
         protected LikeModelAction $likeModelAction,
         protected CheckUserLikedAnotherUserAction $checkUserLikedAnotherUserAction,
-        protected GetLikedUsersAction $getLikedUsersAction
+        protected GetLikedUsersAction $getLikedUsersAction,
+        protected GetLastUserIdAction $getLastUserIdAction
     ) {
     }
 
@@ -38,6 +40,11 @@ class AuthService
     public function getUsersIds(): array
     {
         return ($this->getUsersIdsAction)();
+    }
+
+    public function getLastUserId(): int
+    {
+        return ($this->getLastUserIdAction)();
     }
 
     public function like(LikeRequest $request, int $id): JsonResponse

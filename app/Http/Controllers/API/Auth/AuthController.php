@@ -8,18 +8,27 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Services\AuthService;
+use App\Services\TransactionService;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     public function __construct(
-        protected AuthService $authService
+        protected AuthService $authService,
+        protected TransactionService $transactionService
     ) {
     }
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        return $this->authService->register($request);
+        $registration = $this->authService->register($request);
+
+        $this->transactionService->addOrSubtractCoins(
+            3,
+            $this->authService->getLastUserId()
+        );
+
+        return $registration;
     }
 
     public function login(LoginRequest $request): JsonResponse
