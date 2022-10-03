@@ -21,6 +21,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () use ($transactionService) {
             $transactionService->giveCoinsToUserDaily();
         })->daily();
+
+	$schedule->command('queue:work --stop-when-empty')->everyMinute();
     }
 
     /**
